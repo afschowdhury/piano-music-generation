@@ -1,0 +1,15 @@
+maestro-v1.0.0/
+__pycache__/
+.DS_Store
+*.pt
+*.mid
+*.wav
+*.mp3
+*.ogg
+*.flac
+*.m4a
+*.m4b
+*.m4p
+*.m4v
+*.m4a
+*.m4b
