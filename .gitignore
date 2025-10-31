@@ -1,8 +1,6 @@
 maestro-v1.0.0/
 __pycache__/
 .DS_Store
-*.pt
-*.mid
 *.wav
 *.mp3
 *.ogg
