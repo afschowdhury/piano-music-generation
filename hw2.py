@@ -392,9 +392,26 @@ class Composer(ComposerBase):
     def _load_model(self):
         """Load model checkpoint from file"""
         if not os.path.exists(self.model_path):
-            logging.warning(f'Model checkpoint not found at {self.model_path}')
-            logging.info('Initializing new model instead')
-            return
+            logging.info(f'Model checkpoint not found at {self.model_path}')
+            logging.info('Attempting to download from Google Drive...')
+            
+            try:
+                import gdown
+                file_id = '12vo2bal_az5EFNTse2sA5fe2LQNb8WwL'
+                url = f'https://drive.google.com/uc?id={file_id}'
+                gdown.download(url, self.model_path, quiet=False)
+                logging.info(f'Successfully downloaded model to {self.model_path}')
+            except Exception as e:
+                # Raise error with helpful instructions
+                error_msg = (
+                    f"\nFailed to download model from Google Drive: {e}\n\n"
+                    f"To fix this:\n"
+                    f"1. Manually download from: https://drive.google.com/file/d/{file_id}/view?usp=sharing\n"
+                    f"2. Save it as '{self.model_path}' in the current directory\n"
+                    f"3. Or ensure 'gdown' is installed: pip install gdown\n"
+                    f"   (In conda: conda activate piano-composer && pip install gdown)\n"
+                )
+                raise FileNotFoundError(error_msg)
         
         logging.info(f'Loading model from {self.model_path}')
         checkpoint = torch.load(self.model_path, map_location=self.device)
